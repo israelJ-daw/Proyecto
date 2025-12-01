@@ -1,13 +1,51 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pagina Principal</title>
-</head>
-<body>
+{% extends 'estructura/principal.html' %}
 
-    <h1>Pagina Principal Index</h1>
+{% block titulo %}
+<title>Organiza+</title>
+{% endblock %}
+
+{% block contenido %}
+
+
+{% if request.user.is_authenticated %}
+   <div class="text-center mt-5">
+        <h2>Tareas</h2>
+        <a href="{% url 'lista_tarea' %}" class="btn-guapo">Ver mis tareas</a>
+        <a href="{% url 'crear_tarea' %}" class="btn-guapo">Crear Tarea</a>
+
+    </div> 
+
+
+{%else%}
+    <div class="d-flex justify-content-center align-items-center vh-100 bg-light">
+        <div class="card shadow-lg border-0 text-center p-5" style="max-width: 500px;">
+            <div class="card-body">
+                <h1 class="display-4 text-danger mb-4">¡No estás registrado!</h1>
+                <p class="lead mb-4">
+                    Para acceder a esta sección necesitas crear una cuenta en Organiza+.
+                </p>
+
+                <div class="d-grid gap-2 mb-3">
+                    <a href="{% url 'registro' %}" class="btn btn-guapo btn-lg rounded-pill">
+                        📝 Registrarse
+                    </a>
+                    <a href="{% url 'login' %}" class="btn btn-guapo btn-lg rounded-pill">
+                        🔑 Iniciar sesión
+                    </a>
+                </div>
+
+                <small class="text-muted">
+                        Organiza+ te ayuda a ser más productivo. Regístrate o inicia sesión para comenzar.
+                </small>
+            </div>
+        </div>
+    </div>
+{% endif %}
     
-</body>
-</html>
+
+
+
+
+
+
+{% endblock %}

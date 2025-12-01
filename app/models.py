@@ -55,7 +55,7 @@ class Tarea(models.Model):
     completada = models.BooleanField(default=False)
 
     proyecto = models.ForeignKey(
-        Proyecto, on_delete=models.CASCADE, related_name='tareas'
+        Proyecto, on_delete=models.CASCADE, related_name='tareas', null=True, blank=True
     )
     categoria = models.ForeignKey(
         Categoria, on_delete=models.SET_NULL, null=True, blank=True, related_name='tareas'

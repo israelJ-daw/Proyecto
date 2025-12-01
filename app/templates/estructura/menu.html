@@ -1,0 +1,50 @@
+<nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #ff0080ff;">
+
+    <div class="container">
+        <a class="navbar-brand fw-bold fs-4" href="{% url 'index' %}">✅ Organiza+</a>
+
+        <button class="navbar-toggler" type="button" 
+            data-bs-toggle="collapse" data-bs-target="#navbarContent" 
+            aria-controls="navbarContent" aria-expanded="false" 
+            aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarContent">
+            <ul class="navbar-nav ms-auto align-items-center">
+                <li class="nav-item">
+                    <a class="nav-link active" href="{% url 'index' %}">🏠 Inicio</a>
+                </li>
+
+                {% if request.user.is_authenticated %}
+                    <li class="nav-item">
+                        <span class="nav-link">👤 {{ request.user.username }}</span>
+                    </li>
+                    <li class="nav-item">
+                        <span class="nav-link">
+                            🛡️ 
+                            {% if request.user.rol == 1 %}
+                                Administrador
+                            {% else %}
+                                Usuario
+                            {% endif %}
+                        </span>
+                    </li>
+                    <li class="nav-item">
+                        <form method="post" action="{% url 'logout' %}" class="d-inline">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-outline-light btn-sm rounded-pill ms-2">Cerrar sesión</button>
+                        </form>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a class="btn btn-light btn-sm rounded-pill me-2" href="{% url 'login' %}">🔑 Iniciar sesión</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="btn btn-light btn-sm rounded-pill" href="{% url 'registro' %}">📝 Registrarse</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</nav>
