@@ -52,7 +52,7 @@ def crear_tarea(request):
                 usuario_id = request.user.id
             )
             tarea.save()
-            messages.success ("Tarea creada Perfectamente")
+            messages.success(request, "Tarea creada perfectamente")
             return redirect ('lista_tarea')
     else:
         formulario = TareaForms()
@@ -86,5 +86,5 @@ def editar_tarea (request, id_tarea):
         
     else:
 
-        formulario = TareaForms(instance=tarea)
+        formulario = TareaForms(instance=tarea)     
     return render(request, 'tarea/editar_tarea.html', {'formulario': formulario, 'tarea': tarea})
