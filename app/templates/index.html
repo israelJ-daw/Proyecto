@@ -1,51 +1,155 @@
 {% extends 'estructura/principal.html' %}
 
 {% block titulo %}
-<title>Organiza+</title>
+<title>Organiza+ — Inicio</title>
 {% endblock %}
 
 {% block contenido %}
 
-
 {% if request.user.is_authenticated %}
-   <div class="text-center mt-5">
-        <h2>Tareas</h2>
-        <a href="{% url 'lista_tarea' %}" class="btn-guapo">Ver mis tareas</a>
-        <a href="{% url 'crear_tarea' %}" class="btn-guapo">Crear Tarea</a>
+<div class="container mt-5">
 
-    </div> 
-
-
-{%else%}
-    <div class="d-flex justify-content-center align-items-center vh-100 bg-light">
-        <div class="card shadow-lg border-0 text-center p-5" style="max-width: 500px;">
-            <div class="card-body">
-                <h1 class="display-4 text-danger mb-4">¡No estás registrado!</h1>
-                <p class="lead mb-4">
-                    Para acceder a esta sección necesitas crear una cuenta en Organiza+.
-                </p>
-
-                <div class="d-grid gap-2 mb-3">
-                    <a href="{% url 'registro' %}" class="btn btn-guapo btn-lg rounded-pill">
-                        📝 Registrarse
-                    </a>
-                    <a href="{% url 'login' %}" class="btn btn-guapo btn-lg rounded-pill">
-                        🔑 Iniciar sesión
-                    </a>
-                </div>
-
-                <small class="text-muted">
-                        Organiza+ te ayuda a ser más productivo. Regístrate o inicia sesión para comenzar.
-                </small>
-            </div>
-        </div>
+  <!-- Saludo + CTA -->
+  <div class="d-flex flex-column flex-md-row justify-content-between align-items-start gap-3 mb-4">
+    <div>
+      <h1 class="h3 mb-1">
+        Hola, {{ request.user.first_name|default:request.user.username }} 👋
+      </h1>
+      <p class="text-muted mb-0">
+        Bienvenido a <strong>Organiza+</strong>. Aquí tienes un resumen rápido de tu actividad.
+      </p>
     </div>
+
+    <div class="d-flex gap-2 flex-wrap">
+      <a href="{% url 'crear_tarea' %}" class="btn-guapo"> ➕ Nueva tarea</a>
+      <a href="{% url 'crear_proyecto' %}" class="btn-guapo2"> 📁 Nuevo proyecto</a>
+    </div>
+  </div>
+
+  <!-- Estadísticas -->
+  <div class="row g-3 mb-4">
+    <div class="col-12 col-md-6 col-lg-4">
+      <div class="card h-100 shadow-sm">
+        <div class="card-body">
+          <h6 class="card-title mb-2">Tareas</h6>
+          <p class="display-6 mb-1">{{ request.user.tareas.count }}</p>
+          <a href="{% url 'lista_tarea' %}" class="btn-guapo2 btn-sm">Ver mis tareas →</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 col-md-6 col-lg-4">
+      <div class="card h-100 shadow-sm">
+        <div class="card-body">
+          <h6 class="card-title mb-2">Proyectos</h6>
+          <p class="display-6 mb-1">{{ request.user.proyectos.count }}</p>
+          <a href="{% url 'lista_proyecto' %}" class="btn-guapo2 btn-sm">Ver mis proyectos →</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Atajos -->
+    <div class="col-12 col-lg-4">
+      <div class="card h-100 shadow-sm">
+        <div class="card-body">
+          <h6 class="card-title mb-3">Atajos</h6>
+          <div class="d-flex flex-column gap-2">
+            <a class="btn-guapo btn-sm" href="{% url 'crear_tarea' %}">Crear tarea rápida</a>
+            <a class="btn-guapo2 btn-sm" href="{% url 'lista_tarea' %}">Administrar tareas</a>
+            <a class="btn-guapo2 btn-sm" href="{% url 'lista_proyecto' %}">Administrar proyectos</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tareas recientes -->
+  <div class="card mb-4 shadow-sm">
+    <div class="card-body">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <h5 class="mb-0">Tareas recientes</h5>
+        <a href="{% url 'lista_tarea' %}" class="small text-muted text-decoration-none">Ver todas</a>
+      </div>
+
+      {% with recent=request.user.tareas.all|slice:":3" %}
+        {% if recent %}
+          <div class="list-group list-group-flush">
+            {% for t in recent %}
+            <div class="list-group-item d-flex justify-content-between align-items-center">
+              <div class="me-3">
+                <div class="fw-semibold">{{ t.titulo }}</div>
+                <small class="text-muted">
+                  {{ t.descripcion|truncatechars:60 }}
+                </small>
+
+                <div class="mt-1">
+                  <span class="badge me-1
+                    {% if t.estado == 'pendiente' %}bg-light text-dark
+                    {% elif t.estado == 'en_progreso' %}bg-pink
+                    {% elif t.estado == 'completada' %}bg-danger text-white
+                    {% else %}bg-secondary{% endif %}">
+                    {{ t.get_estado_display }}
+                  </span>
+
+                  <span class="badge
+                    {% if t.prioridad == 'alta' %}bg-danger text-white
+                    {% elif t.prioridad == 'media' %}bg-pink text-dark
+                    {% else %}bg-light text-dark{% endif %}">
+                    {{ t.get_prioridad_display }}
+                  </span>
+
+                  {% if t.proyecto %}
+                    <small class="text-muted ms-2">• {{ t.proyecto.nombre }}</small>
+                  {% endif %}
+                </div>
+              </div>
+
+              <div class="d-flex align-items-center gap-2">
+                <a href="{% url 'editar_tarea' t.id %}" class="btn-guapo2 btn-sm">✏️ </a>
+
+                <form method="post" action="{% url 'eliminar_tarea' t.id %}">
+                  {% csrf_token %}
+                  <input type="checkbox" class="completar-tarea" {% if t.completada %}checked{% endif %}>
+                </form>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        {% else %}
+          <div class="text-center py-4 text-muted">
+            <p class="mb-2">No tienes tareas todavía.</p>
+            <a href="{% url 'crear_tarea' %}" class="btn-guapo me-2">Crear primera tarea</a>
+          </div>
+        {% endif %}
+      {% endwith %}
+    </div>
+  </div>
+
+  <div class="text-muted small">
+    Tip: puedes asignar tareas a proyectos desde el listado de tareas.
+  </div>
+</div>
+
+{% else %}
+<!-- NO AUTH -->
+<div class="d-flex justify-content-center align-items-center vh-100 bg-light">
+  <div class="card shadow-lg border-0 text-center p-5" style="max-width: 500px;">
+    <div class="card-body">
+      <h1 class="display-4 text-danger mb-4">¡No estás registrado!</h1>
+      <p class="lead mb-4">
+        Para acceder a esta sección necesitas crear una cuenta en Organiza+.
+      </p>
+
+      <div class="d-grid gap-2 mb-3">
+        <a href="{% url 'registro' %}" class="btn-guapo btn-lg rounded-pill"> 📝 Registrarse</a>
+        <a href="{% url 'login' %}" class="btn-guapo2 btn-lg rounded-pill"> 🔑 Iniciar sesión</a>
+      </div>
+
+      <small class="text-muted">Organiza+ te ayuda a ser más productivo.</small>
+    </div>
+  </div>
+</div>
 {% endif %}
-    
 
-
-
-
-
-
+{% include 'tarea/corfirmar.html' %}
 {% endblock %}

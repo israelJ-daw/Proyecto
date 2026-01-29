@@ -1,20 +1,64 @@
-/* css.css */
+/* BOTÓN PRINCIPAL */
 .btn-guapo {
     background-color: #ff0080;
-    color: white;
-    border-radius: 12px;
-    padding: 8px 20px;
-    font-weight: bold;
-    box-shadow: 0 4px 10px rgba(255, 0, 128, 0.4);
-    transition: 0.3s ease;
+    color: #ffffff;
+    border: none;
+    border-radius: 14px;
+    padding: 10px 22px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    text-decoration: none;
+    cursor: pointer;
+
+    box-shadow: 0 6px 16px rgba(255, 0, 128, 0.35);
+    transition: all 0.25s ease;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .btn-guapo:hover {
     background-color: #e10073;
+    color: #ffffff;
     transform: translateY(-2px);
-    box-shadow: 0 6px 14px rgba(255, 0, 128, 0.6);
+    box-shadow: 0 10px 22px rgba(255, 0, 128, 0.45);
 }
 
 .btn-guapo:active {
-    transform: scale(0.97);
+    transform: scale(0.96);
+    box-shadow: 0 5px 12px rgba(255, 0, 128, 0.35);
 }
+
+.btn-guapo:focus {
+    outline: none;
+    box-shadow: 0 0 0 4px rgba(255, 0, 128, 0.35);
+}
+
+.btn-guapo2 {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #ffffff;
+    color: #ff0080 !important;
+    border: 2px solid #ff0080;
+    border-radius: 14px;
+    padding: 8px 20px;
+    font-weight: 600;
+    text-decoration: none !important;
+    transition: all 0.25s ease;
+    box-shadow: 0 4px 6px rgba(255, 0, 128, 0.1);
+}
+
+.btn-guapo2:hover {
+    background-color: #ffe6f2;
+    color: #ff0080 !important;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(255, 0, 128, 0.2);
+}
+
+.btn-guapo2:active {
+    transform: scale(0.97);
+    background-color: #ffcce6;
+}
+

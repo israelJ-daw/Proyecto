@@ -1,0 +1,14 @@
+{% extends "estructura/principal.html" %}
+
+{% block contenido %}
+<div class="container mt-4">
+  <h2>Asignar proyecto a la tarea: {{ tarea.titulo }}</h2>
+
+  <form method="post">
+    {% csrf_token %}
+    {{ formulario.as_p }}
+    <button type="submit" class="btn btn-guapo">Asignar proyecto</button>
+    <a href="{% url 'lista_tarea' %}" class="btn btn-guapo2">Cancelar</a>
+  </form>
+</div>
+{% endblock %}

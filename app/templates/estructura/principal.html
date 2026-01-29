@@ -15,7 +15,7 @@
     {% bootstrap_css %}
     
     {% load static %}
-    <link rel="stylesheet" href="{% static 'css/css.css' %}">
+    <link rel="stylesheet" href="{% static 'css/css.css' %}?v=2">
 </head>
 <body class="d-flex flex-column min-vh-100">
 
@@ -51,15 +51,15 @@
                         <li class="nav-item">
                             <form method="post" action="{% url 'logout' %}">
                                 {% csrf_token %}
-                                <button type="submit" class="btn btn-outline-light btn-sm rounded-pill ms-2">Cerrar sesión</button>
+                                <button type="submit" class="btn-guapo2 btn-sm ms-2">Cerrar sesión</button>
                             </form>
                         </li>
                     {% else %}
                         <li class="nav-item">
-                            <a class="btn btn-light btn-sm rounded-pill me-2" href="{% url 'login' %}">🔑 Iniciar sesión</a>
+                            <a class="btn-guapo2 btn-sm me-2" href="{% url 'login' %}">🔑 Iniciar sesión</a>
                         </li>
                         <li class="nav-item">
-                            <a class="btn btn-light btn-sm rounded-pill" href="{% url 'registro' %}">📝 Registrarse</a>
+                            <a class="btn-guapo2 btn-sm" href="{% url 'registro' %}">📝 Registrarse</a>
                         </li>
                     {% endif %}
                 </ul>

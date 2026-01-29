@@ -33,15 +33,15 @@
                     <li class="nav-item">
                         <form method="post" action="{% url 'logout' %}" class="d-inline">
                             {% csrf_token %}
-                            <button type="submit" class="btn btn-outline-light btn-sm rounded-pill ms-2">Cerrar sesión</button>
+                            <button type="submit" class="btn btn-guapo2 btn-sm ms-2">Cerrar sesión</button>
                         </form>
                     </li>
                 {% else %}
                     <li class="nav-item">
-                        <a class="btn btn-light btn-sm rounded-pill me-2" href="{% url 'login' %}">🔑 Iniciar sesión</a>
+                        <a class="btn btn-guapo2 btn-sm me-2" href="{% url 'login' %}">🔑 Iniciar sesión</a>
                     </li>
                     <li class="nav-item">
-                        <a class="btn btn-light btn-sm rounded-pill" href="{% url 'registro' %}">📝 Registrarse</a>
+                        <a class="btn btn-guapo2 btn-sm" href="{% url 'registro' %}">📝 Registrarse</a>
                     </li>
                 {% endif %}
             </ul>

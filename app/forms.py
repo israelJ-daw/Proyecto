@@ -24,3 +24,25 @@ class TareaForms(forms.ModelForm):
             'fecha_vencimiento': forms.DateInput(attrs={'type': 'date'}),
         }
         
+
+
+class ProyectoForm(forms.ModelForm):
+    class Meta:
+        model = Proyecto
+        fields = ['nombre', 'descripcion', 'fecha_fin']
+        widgets = {
+            'fecha_fin': forms.DateInput(attrs={'type': 'date'})
+        }
+
+class AsignarProyectoForm(forms.ModelForm):
+    class Meta:
+        model = Tarea
+        fields = ['proyecto']
+
+    def __init__(self, *args, **kwargs):
+        user = kwargs.pop('user', None)
+        super().__init__(*args, **kwargs)
+        if user:
+            # Mostrar solo proyectos del usuario actual
+            self.fields['proyecto'].queryset = Proyecto.objects.filter(usuario=user)
+            self.fields['proyecto'].empty_label = "Selecciona un proyecto"

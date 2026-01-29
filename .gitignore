@@ -27,6 +27,6 @@ ehthumbs*.db
 $RECYCLE.BIN/
 
 # Visual Studio
-.vscode/
+# .vscode/
 .history/
 *.code-workspace

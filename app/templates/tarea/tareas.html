@@ -23,8 +23,23 @@
         <tr>
           <td>{{ t.titulo }}</td>
           <td>{{ t.descripcion|default:"—" }}</td>
-          <td>{{ t.get_estado_display }}</td>
-          <td>{{ t.get_prioridad_display }}</td>
+          <td>
+            <span class="badge 
+              {% if t.estado == 'pendiente' %}bg-warning
+              {% elif t.estado == 'en_progreso' %}bg-info
+              {% elif t.estado == 'completada' %}bg-success
+              {% else %}bg-secondary{% endif %}">
+              {{ t.get_estado_display }}
+            </span>
+          </td>
+          <td>
+            <span class="badge 
+              {% if t.prioridad == 'alta' %}bg-danger
+              {% elif t.prioridad == 'media' %}bg-warning text-dark
+              {% else %}bg-success{% endif %}">
+              {{ t.get_prioridad_display }}
+            </span>
+          </td>
           <td>{{ t.fecha_creacion|date:"d/m/Y" }}</td>
           <td>
             {% if t.fecha_vencimiento %} {{ t.fecha_vencimiento|date:"d/m/Y" }}
@@ -32,7 +47,7 @@
           </td>
           <td>
             {% if t.proyecto %} {{ t.proyecto.nombre }} {% else %}
-            <button class="btn btn-sm btn-guapo">Añadir proyecto</button>
+            <a href="{% url 'asignar_proyecto_tarea' t.id %}" class="btn btn-sm btn-guapo">Añadir proyecto</a>
             {% endif %}
           </td>
           <td>
@@ -40,25 +55,18 @@
             <button class="btn btn-sm btn-guapo">Añadir categoría</button>
             {% endif %}
           </td>
-          <td>{% if t.completada %} ✔️ Sí {% else %} ❌ No {% endif %}</td>
+          <td>
+            <form method="post" action="{% url 'eliminar_tarea' t.id %}" style="display:inline;">
+                {% csrf_token %}
+                <input type="checkbox" class="completar-tarea" {% if t.completada %}checked{% endif %}>
+                <span class="ms-1">{% if t.completada %}Completada{% else %}Completar{% endif %}</span>
+            </form>
+          </td>
           <td class="d-flex gap-2">
-            <a
-              href="{% url 'editar_tarea' t.id %}"
-              class="btn btn-guapo btn-sm flex-grow-1"
-            >
-              ✏️ Editar
-            </a>
-
-            <form
-              method="post"
-              action="{% url 'eliminar_tarea' t.id %}"
-              onsubmit="return confirm('¿Estás seguro de que quieres eliminar esta tarea?');"
-              class="flex-grow-1"
-            >
+            <a href="{% url 'editar_tarea' t.id %}" class="btn btn-guapo btn-sm flex-grow-1">✏️ Editar</a>
+            <form method="post" action="{% url 'eliminar_tarea' t.id %}" class="flex-grow-1">
               {% csrf_token %}
-              <button type="submit" class="btn btn-danger btn-sm w-100">
-                🗑️ Eliminar
-              </button>
+              <button type="button" class="btn btn-danger btn-sm w-100 btn-eliminar">🗑️ Eliminar</button>
             </form>
           </td>
         </tr>
@@ -70,3 +78,5 @@
   <p>No tienes tareas aún.</p>
   {% endif %}
 </div>
+
+{% include 'tarea/corfirmar.html' %}
