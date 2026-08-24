@@ -1,67 +1,149 @@
+
 <div class="modal fade" id="confirmModal" tabindex="-1" aria-labelledby="confirmModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header" style="background-color: #ff0080ff; color: white;">
-        <h5 class="modal-title" id="confirmModalLabel">Confirmar acción</h5>
-        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-      </div>
-      <div class="modal-body">
-        <span id="modalMessage">¿Confirmar acción?</span>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-guapo2" data-bs-dismiss="modal">Cancelar</button>
-        <button type="button" class="btn btn-guapo" id="confirmBtn">Confirmar</button>
-      </div>
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header" style="background-color: #ff0080ff; color: white;">
+                <h5 class="modal-title" id="confirmModalLabel">
+                    Confirmar acción
+                </h5>
+
+                <button type="button"
+                        class="btn-close btn-close-white"
+                        data-bs-dismiss="modal"
+                        aria-label="Cerrar">
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <span id="modalMessage">
+                    ¿Confirmar acción?
+                </span>
+            </div>
+
+            <div class="modal-footer">
+
+                <button type="button"
+                        class="btn btn-guapo2"
+                        data-bs-dismiss="modal">
+                    Cancelar
+                </button>
+
+                <button type="button"
+                        class="btn btn-guapo"
+                        id="confirmBtn">
+                    Confirmar
+                </button>
+
+            </div>
+
+        </div>
     </div>
-  </div>
 </div>
 
+
 <script>
+
 document.addEventListener('DOMContentLoaded', function () {
-  let modalElement = document.getElementById('confirmModal');
-  let modal = new bootstrap.Modal(modalElement);
-  let currentForm = null;
-  let isConfirmed = false;
-  let modalBody = modalElement.querySelector('.modal-body');
 
-  const TEXT_COMPLETAR = "¿Estás seguro de que quieres marcar esta tarea como completada?";
-  const TEXT_ELIMINAR = "¿Estás seguro de que quieres eliminar esta tarea? <br><strong>Esta acción no se puede deshacer.</strong>";
+    let modalElement = document.getElementById('confirmModal');
 
-  document.querySelectorAll('.completar-tarea').forEach(function(checkbox) {
-    checkbox.addEventListener('change', function(e) {
-      if(this.checked) {
-        currentForm = this.closest('form');
-        isConfirmed = false;
-        modalBody.innerHTML = TEXT_COMPLETAR;
-        modal.show();
-      }
+    let modal = new bootstrap.Modal(modalElement);
+
+    let currentForm = null;
+
+    let isConfirmed = false;
+
+    let modalBody = modalElement.querySelector('.modal-body');
+
+
+    const TEXT_COMPLETAR =
+        "¿Estás seguro de que quieres marcar esta tarea como completada?";
+
+    const TEXT_ELIMINAR =
+        "¿Estás seguro de que quieres eliminar esta tarea? <br><strong>Esta acción no se puede deshacer.</strong>";
+
+
+    document.addEventListener('click', function (e) {
+
+        const btn = e.target.closest('.btn-eliminar');
+
+        if (btn) {
+
+            e.preventDefault();
+
+            currentForm = btn.closest('form');
+
+            isConfirmed = false;
+
+            modalBody.innerHTML = TEXT_ELIMINAR;
+
+            modal.show();
+
+        }
+
     });
-  });
 
-  document.querySelectorAll('.btn-eliminar').forEach(function(btn) {
-    btn.addEventListener('click', function(e) {
-        e.preventDefault();
-        currentForm = this.closest('form');
-        isConfirmed = false;
-        modalBody.innerHTML = TEXT_ELIMINAR;
-        modal.show();
+
+    document.addEventListener('change', function (e) {
+
+        if (e.target.classList.contains('completar-tarea')) {
+
+            if (e.target.checked) {
+
+                currentForm = e.target.closest('form');
+
+                isConfirmed = false;
+
+                modalBody.innerHTML = TEXT_COMPLETAR;
+
+                modal.show();
+
+            }
+
+        }
+
     });
-  });
 
-  document.getElementById('confirmBtn').addEventListener('click', function() {
-    if(currentForm) {
-        isConfirmed = true;
-        currentForm.submit();
-    }
-    modal.hide();
-  });
 
-  modalElement.addEventListener('hidden.bs.modal', function () {
-    if (!isConfirmed && currentForm && currentForm.querySelector('.completar-tarea')) {
-        let checkbox = currentForm.querySelector('input[type="checkbox"]');
-        if(checkbox) checkbox.checked = false;
-    }
-    currentForm = null;
-  });
+    document.getElementById('confirmBtn').addEventListener('click', function () {
+
+        if (currentForm) {
+
+            isConfirmed = true;
+
+            currentForm.submit();
+
+        }
+
+        modal.hide();
+
+    });
+
+
+    modalElement.addEventListener('hidden.bs.modal', function () {
+
+        if (
+            !isConfirmed &&
+            currentForm &&
+            currentForm.querySelector('.completar-tarea')
+        ) {
+
+            let checkbox =
+                currentForm.querySelector('input[type="checkbox"]');
+
+            if (checkbox) {
+
+                checkbox.checked = false;
+
+            }
+
+        }
+
+        currentForm = null;
+
+    });
+
 });
+
 </script>

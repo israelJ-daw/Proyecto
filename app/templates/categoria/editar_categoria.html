@@ -1,0 +1,33 @@
+{% extends "estructura/principal.html" %}
+
+{% block contenido %}
+<div class="container mt-4">
+    <h2 class="mb-4">
+        Editar categoría: <span class="text-primary">{{ categoria.nombre }}</span>
+    </h2>
+
+    <form method="post">
+        {% csrf_token %}
+
+        <div class="mb-3">
+            {{ formulario.nombre.label_tag }}
+            {{ formulario.nombre }}
+        </div>
+
+        <div class="mb-3">
+            {{ formulario.descripcion.label_tag }}
+            {{ formulario.descripcion }}
+        </div>
+
+        <div class="d-flex gap-2">
+            <button type="submit" class="btn btn-guapo">
+                Guardar cambios
+            </button>
+
+            <a href="{% url 'lista_categoria' %}" class="btn btn-guapo2">
+                Cancelar
+            </a>
+        </div>
+    </form>
+</div>
+{% endblock %}

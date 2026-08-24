@@ -62,3 +62,140 @@
     background-color: #ffcce6;
 }
 
+
+
+/* BOTÓN ELIMINAR */
+.btn-eliminar {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    background-color: #ff0080;
+    color: #ffffff;
+    border: 2px solid #ff0080;
+    border-radius: 14px;
+    padding: 10px 22px;
+
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    text-decoration: none;
+    cursor: pointer;
+
+    box-shadow: 0 6px 16px rgba(255, 0, 128, 0.35);
+    transition: all 0.25s ease;
+}
+
+.btn-eliminar:hover {
+    background-color: #d62839;
+    border-color: #d62839;
+    color: #ffffff;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 22px rgba(199, 0, 100, 0.45);
+}
+
+.btn-eliminar:active {
+    transform: scale(0.96);
+    box-shadow: 0 5px 12px rgba(199, 0, 100, 0.35);
+}
+
+.btn-eliminar:focus {
+    outline: none;
+    box-shadow: 0 0 0 4px rgba(255, 0, 128, 0.35);
+}
+
+.btn-proyecto {
+    display: inline-block;
+    background-color: #ffe6f2;
+    color: #ff0080;
+    border: 2px solid #ff0080;
+    border-radius: 14px;
+    padding: 7px 16px;
+
+    font-weight: 600;
+    text-decoration: none;
+    text-align: center;
+
+    transition: all .25s ease;
+}
+
+.btn-proyecto:hover {
+    background-color: #ff0080;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 14px rgba(255,0,128,.25);
+}
+
+/* Contenedor */
+.check-completar{
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    cursor:pointer;
+    user-select:none;
+}
+
+/* Checkbox */
+.check-completar input{
+    width:20px;
+    height:20px;
+    accent-color:#ff0080;
+    cursor:pointer;
+    transition:transform .2s ease;
+}
+
+.check-completar:hover input{
+    transform:scale(1.12);
+}
+
+/* Texto */
+.texto-completar{
+    color:#666;
+    font-weight:600;
+    transition:all .25s ease;
+}
+
+.check-completar:hover .texto-completar{
+    color:#ff0080;
+}
+
+
+.nav-inicio{
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+
+    padding: 8px 16px !important;
+    margin-right: 10px;
+
+    color: #fff !important;
+    font-weight: 600;
+    text-decoration: none;
+
+    border: 2px solid rgba(255,255,255,.45);
+    border-radius: 14px;
+
+    transition: all .25s ease;
+}
+
+.nav-inicio:hover{
+    background: rgba(255,255,255,.12);
+    border-color: #fff;
+
+    color: #fff !important;
+
+    transform: translateY(-2px);
+
+    box-shadow: 0 6px 16px rgba(0,0,0,.18);
+}
+
+.nav-inicio:active{
+    transform: scale(.97);
+}
+
+.nav-inicio span{
+    transition: transform .25s ease;
+}
+
+.nav-inicio:hover span{
+    transform: scale(1.2) rotate(-8deg);
+}

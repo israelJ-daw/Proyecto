@@ -1,15 +1,16 @@
 {% extends 'estructura/principal.html' %}
 
-{% block titulo %}
-<title>Organiza+ — Inicio</title>
-{% endblock %}
+<title>
+    {% block titulo %}
+        Organiza+
+    {% endblock %}
+</title>
 
 {% block contenido %}
 
 {% if request.user.is_authenticated %}
 <div class="container mt-5">
 
-  <!-- Saludo + CTA -->
   <div class="d-flex flex-column flex-md-row justify-content-between align-items-start gap-3 mb-4">
     <div>
       <h1 class="h3 mb-1">
@@ -20,10 +21,11 @@
       </p>
     </div>
 
-    <div class="d-flex gap-2 flex-wrap">
-      <a href="{% url 'crear_tarea' %}" class="btn-guapo"> ➕ Nueva tarea</a>
-      <a href="{% url 'crear_proyecto' %}" class="btn-guapo2"> 📁 Nuevo proyecto</a>
-    </div>
+  <div class="d-flex gap-2 flex-wrap">
+    <a href="{% url 'crear_tarea' %}" class="btn-guapo">➕ Nueva tarea</a>
+    <a href="{% url 'crear_proyecto' %}" class="btn-guapo2">📁 Nuevo proyecto</a>
+    <a href="{% url 'crear_categoria' %}" class="btn-guapo2">🏷️ Nueva categoría</a>
+  </div>
   </div>
 
   <!-- Estadísticas -->
@@ -48,6 +50,18 @@
       </div>
     </div>
 
+    <div class="col-12 col-md-6 col-lg-4">
+      <div class="card h-100 shadow-sm">
+        <div class="card-body">
+          <h6 class="card-title mb-2">Categorías</h6>
+          <p class="display-6 mb-1">{{ request.user.categorias.count }}</p>
+          <a href="{% url 'lista_categoria' %}" class="btn-guapo2 btn-sm">
+            Ver mis categorías →
+          </a>
+        </div>
+      </div>
+    </div>
+
     <!-- Atajos -->
     <div class="col-12 col-lg-4">
       <div class="card h-100 shadow-sm">
@@ -57,6 +71,7 @@
             <a class="btn-guapo btn-sm" href="{% url 'crear_tarea' %}">Crear tarea rápida</a>
             <a class="btn-guapo2 btn-sm" href="{% url 'lista_tarea' %}">Administrar tareas</a>
             <a class="btn-guapo2 btn-sm" href="{% url 'lista_proyecto' %}">Administrar proyectos</a>
+            <a class="btn-guapo2 btn-sm" href="{% url 'lista_categoria' %}"> Administrar categorías</a>
           </div>
         </div>
       </div>
@@ -131,7 +146,7 @@
 </div>
 
 {% else %}
-<!-- NO AUTH -->
+<!-- NO Secicon -->
 <div class="d-flex justify-content-center align-items-center vh-100 bg-light">
   <div class="card shadow-lg border-0 text-center p-5" style="max-width: 500px;">
     <div class="card-body">
@@ -145,7 +160,9 @@
         <a href="{% url 'login' %}" class="btn-guapo2 btn-lg rounded-pill"> 🔑 Iniciar sesión</a>
       </div>
 
-      <small class="text-muted">Organiza+ te ayuda a ser más productivo.</small>
+      <small class="text-muted">
+        Organiza+ te ayuda a ser más productivo.
+      </small>
     </div>
   </div>
 </div>

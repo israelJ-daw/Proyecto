@@ -1,0 +1,13 @@
+{% extends "estructura/principal.html" %}
+
+{% block contenido %}
+<h2>Crear subtarea para: {{ tarea.titulo }}</h2>
+
+<form method="POST" class="p-3 card shadow-sm">
+    {% csrf_token %}
+    {{ formulario.as_p }}
+    <button type="submit" class="btn btn-guapo mt-2">Crear subtarea</button>
+</form>
+
+<a href="{% url 'listar_subtareas' tarea.id %}" class="btn-guapo btn-sm">Volver a subtareas</a>
+{% endblock %}

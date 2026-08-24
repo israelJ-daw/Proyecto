@@ -1,0 +1,30 @@
+<div class="modal fade" id="eliminarCategoriaModal-{{ categoria.id }}" tabindex="-1" aria-labelledby="eliminarCategoriaModalLabel-{{ categoria.id }}" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header" style="background-color: #ff0080; color: white;">
+        <h5 class="modal-title" id="eliminarCategoriaModalLabel-{{ categoria.id }}">
+          Eliminar categoría
+        </h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+      </div>
+
+      <div class="modal-body">
+        ¿Estás seguro de que quieres eliminar la categoría
+        <strong>{{ categoria.nombre }}</strong>?
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-guapo2" data-bs-dismiss="modal">
+          Cancelar
+        </button>
+
+        <form method="post" action="{% url 'eliminar_categoria' categoria.id %}">
+          {% csrf_token %}
+          <button type="submit" class="btn btn-guapo">
+            Eliminar
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

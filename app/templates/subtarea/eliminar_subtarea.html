@@ -1,0 +1,15 @@
+{% extends "estructura/principal.html" %}
+
+{% block contenido %}
+<div class="container mt-4">
+    <h2>Eliminar subtarea: {{ subtarea.titulo }}</h2>
+
+    <p>¿Seguro que quieres eliminar esta subtarea?</p>
+
+    <form method="POST" class="d-flex gap-2">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-guapo">Eliminar</button>
+        <a href="{% url 'listar_subtareas' subtarea.tarea.id %}" class="btn btn-guapo2">Cancelar</a>
+    </form>
+</div>
+{% endblock %}

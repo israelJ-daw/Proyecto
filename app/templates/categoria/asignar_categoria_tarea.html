@@ -1,0 +1,47 @@
+{% extends "estructura/principal.html" %}
+
+{% block contenido %}
+
+<div class="container mt-4">
+
+    <h2 class="mb-4">
+        Asignar categoría a:
+        <span class="text-primary">{{ tarea.titulo }}</span>
+    </h2>
+
+    <form method="post">
+        {% csrf_token %}
+
+        <div class="mb-3">
+            <label for="categoria" class="form-label">
+                Selecciona una categoría
+            </label>
+
+            <select name="categoria" id="categoria" class="form-select">
+
+                <option value="">---------</option>
+
+                {% for categoria in categorias %}
+                    <option value="{{ categoria.id }}">
+                        {{ categoria.nombre }}
+                    </option>
+                {% endfor %}
+
+            </select>
+        </div>
+
+        <div class="d-flex gap-2">
+            <button type="submit" class="btn btn-guapo">
+                Guardar categoría
+            </button>
+
+            <a href="{% url 'lista_tarea' %}" class="btn btn-guapo2">
+                Cancelar
+            </a>
+        </div>
+
+    </form>
+
+</div>
+
+{% endblock %}

@@ -18,10 +18,10 @@
 
                 {% if request.user.is_authenticated %}
                     <li class="nav-item">
-                        <span class="nav-link">👤 {{ request.user.username }}</span>
+                        <span class="nav-link text-white">👤 {{ request.user.username }}</span>
                     </li>
                     <li class="nav-item">
-                        <span class="nav-link">
+                        <span class="nav-link   ">
                             🛡️ 
                             {% if request.user.rol == 1 %}
                                 Administrador

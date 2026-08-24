@@ -1,66 +1,257 @@
 {% extends "estructura/principal.html" %}
 
 {% block contenido %}
+
 <div class="container mt-4">
+
+    <!-- Cabecera -->
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2>Mis Proyectos</h2>
+
+        <div>
+
+            <h2 class="fw-bold mb-1">
+                📁 Mis Proyectos
+            </h2>
+
+            <p class="text-muted mb-0">
+                Organiza tus proyectos y consulta sus tareas.
+            </p>
+
+        </div>
+
         <a href="{% url 'crear_proyecto' %}" class="btn btn-guapo">
-            <i class="fas fa-plus"></i> Nuevo Proyecto
+            ➕ Crear proyecto
         </a>
+
+    </div>
+
+    <!-- BUSCADOR -->
+    <div class="card shadow-sm border-0 rounded-4 mb-4">
+
+        <div class="card-body">
+
+            <form method="GET">
+
+                <div class="row g-3 align-items-end">
+
+                    <div class="col-lg-8">
+
+                        <label class="form-label fw-semibold">
+                            🔍 Buscar proyecto
+                        </label>
+
+                        <input
+                            type="text"
+                            class="form-control"
+                            name="buscar"
+                            placeholder="Escribe el nombre del proyecto..."
+                            value="{{ request.GET.buscar }}">
+
+                    </div>
+
+                    <div class="col-lg-2 d-grid">
+
+                        <button type="submit" class="btn btn-guapo">
+                            🔍 Buscar
+                        </button>
+
+                    </div>
+
+                    <div class="col-lg-2 d-grid">
+
+                        <a href="{% url 'lista_proyecto' %}" class="btn btn-guapo2">
+                            🧹 Limpiar
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </form>
+
+        </div>
+
     </div>
 
     {% if proyectos %}
-    
-    <div class="table-responsive">
-        <table class="table table-striped table-hover align-middle">
-            <thead class="table-dark">
-                <tr>
-                    <th>Nombre</th>
-                    <th>Descripción</th>
-                    <th>Fecha Creación</th>
-                    <th>Fecha Fin</th>
-                    <th>Acciones</th>
-                </tr>
-            </thead>
-            <tbody>
+
+    <div class="card shadow-sm border-0 rounded-4">
+
+        <div class="card-header bg-white border-bottom d-flex justify-content-between align-items-center py-3">
+
+            <div>
+
+                <h5 class="mb-0 fw-bold">
+                    📁 Proyectos
+                </h5>
+
+                <small class="text-muted">
+                    Gestiona todos tus proyectos.
+                </small>
+
+            </div>
+
+            <span class="badge rounded-pill bg-light text-dark border px-3 py-2">
+                {{ proyectos.count }} proyectos
+            </span>
+
+        </div>
+
+        <div class="table-responsive">
+
+            <table class="table table-hover align-middle mb-0">
+
+                <thead class="table-light">
+
+                    <tr>
+
+                        <th width="25%">Nombre</th>
+                        <th>Descripción</th>
+                        <th>Fecha creación</th>
+                        <th>Fecha fin</th>
+                        <th width="250">Acciones</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
                 {% for proyecto in proyectos %}
+
                 <tr>
+
                     <td>
-                        <strong><a href="{% url 'detalle_proyecto' proyecto.id %}" class="text-decoration-none">{{ proyecto.nombre }}</a></strong>
-                    </td>
-                    <td>{{ proyecto.descripcion|default:"—" }}</td>
-                    <td>{{ proyecto.fecha_creacion|date:"d/m/Y" }}</td>
-                    <td>
-                        {% if proyecto.fecha_fin %}
-                            {{ proyecto.fecha_fin|date:"d/m/Y" }}
-                        {% else %}
-                            —
-                        {% endif %}
-                    </td>
-                    <td>
-                        <div class="d-flex gap-2">
-                            <a href="{% url 'editar_proyecto' proyecto.id %}" class="btn btn-sm btn-guapo">
-                                ✏️ Editar
+
+                        <div class="fw-semibold fs-6">
+                            📁
+                            <a href="{% url 'detalle_proyecto' proyecto.id %}"
+                               class="text-decoration-none">
+
+                                {{ proyecto.nombre }}
+
                             </a>
-                            <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#eliminarProyectoModal-{{ proyecto.id }}">
+                        </div>
+
+                    </td>
+
+                    <td>
+
+                        {% if proyecto.descripcion %}
+
+                            {{ proyecto.descripcion|truncatechars:70 }}
+
+                        {% else %}
+
+                            <span class="text-muted fst-italic">
+                                Sin descripción
+                            </span>
+
+                        {% endif %}
+
+                    </td>
+
+                    <td>
+
+                        {{ proyecto.fecha_creacion|date:"d/m/Y" }}
+
+                    </td>
+
+                    <td>
+
+                        {% if proyecto.fecha_fin %}
+
+                            {{ proyecto.fecha_fin|date:"d/m/Y" }}
+
+                        {% else %}
+
+                            <span class="text-muted">
+                                —
+                            </span>
+
+                        {% endif %}
+
+                    </td>
+
+                    <td>
+
+                        <div class="d-flex gap-2">
+
+                            <a href="{% url 'editar_proyecto' proyecto.id %}"
+                               class="btn btn-sm btn-guapo">
+
+                                ✏️ Editar
+
+                            </a>
+
+                            <button
+                                type="button"
+                                class="btn-eliminar"
+                                data-bs-toggle="modal"
+                                data-bs-target="#eliminarProyectoModal-{{ proyecto.id }}">
+
                                 🗑️ Eliminar
+
                             </button>
+
+                            <a href="{% url 'detalle_proyecto' proyecto.id %}"
+                               class="btn-proyecto">
+
+                                📋 Ver tareas
+
+                            </a>
+
                         </div>
 
                         {% include 'proyecto/eliminar.html' with proyecto=proyecto %}
 
                     </td>
+
                 </tr>
+
                 {% endfor %}
-            </tbody>
-        </table>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
     </div>
+
     {% else %}
-    <div class="alert alert-info text-center">
-        <h4>No tienes proyectos creados aún</h4>
-        <p>¡Empieza creando uno nuevo para organizar tus tareas!</p>
-        <a href="{% url 'crear_proyecto' %}" class="btn btn-guapo mt-2">Crear Proyecto</a>
+
+    <div class="card border-0 shadow-sm rounded-4">
+
+        <div class="card-body text-center py-5">
+
+            <div style="font-size:70px;">
+                📁
+            </div>
+
+            <h3 class="fw-bold mt-3">
+                Todavía no has creado ningún proyecto
+            </h3>
+
+            <p class="text-muted">
+
+                Crea tu primer proyecto para organizar mejor tus tareas.
+
+            </p>
+
+            <a href="{% url 'crear_proyecto' %}"
+               class="btn btn-guapo mt-3">
+
+                ➕ Crear mi primer proyecto
+
+            </a>
+
+        </div>
+
     </div>
+
     {% endif %}
+
 </div>
+
 {% endblock %}

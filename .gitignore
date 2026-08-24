@@ -3,16 +3,19 @@
 *~
 __pycache__
 
-# Env
-# .env
+# Entornos virtuales
 myvenv/
 venv/
 
-# Database
+# Variables de entorno
+.env
+
+# Base de datos
 db.sqlite3
 
-# Static folder at project root
+# Archivos estáticos generados
 /static/
+staticfiles/
 
 # macOS
 ._*
@@ -26,7 +29,7 @@ ehthumbs*.db
 [Dd]esktop.ini
 $RECYCLE.BIN/
 
-# Visual Studio
-# .vscode/
+# Visual Studio Code
+.vscode/
 .history/
 *.code-workspace

@@ -1,96 +1,485 @@
 {% extends "estructura/principal.html" %}
 
 {% block contenido %}
+
 <div class="container mt-4">
+
+    <!-- Cabecera -->
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2>Tareas del proyecto: <span class="text-primary">{{ proyecto.nombre }}</span></h2>
+
         <div>
-            <a href="{% url 'lista_proyecto' %}" class="btn btn-guapo2">
-                <i class="fas fa-arrow-left"></i> Volver
-            </a>
-            <!-- Opción para añadir tarea directamente a este proyecto si se desea implementar -->
-             <!-- <a href="#" class="btn btn-guapo">Nueva Tarea en Proyecto</a> -->
+
+            <h2 class="fw-bold mb-1">
+                📁 {{ proyecto.nombre }}
+            </h2>
+
+            <p class="text-muted mb-0">
+                Gestiona todas las tareas de este proyecto.
+            </p>
+
         </div>
+
+        <a href="{% url 'lista_proyecto' %}" class="btn btn-guapo2">
+            ⬅️ Volver
+        </a>
+
     </div>
 
-    {% if tareas %}
-    <div class="table-responsive">
-        <table class="table table-striped table-hover align-middle">
-            <thead class="table-dark">
-                <tr>
-                    <th>Título</th>
-                    <th>Descripción</th>
-                    <th>Estado</th>
-                    <th>Prioridad</th>
-                    <th>Creada</th>
-                    <th>Vence</th>
-                    <th>Completada</th>
-                    <th>Acciones</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for t in tareas %}
-                <tr>
-                    <td><strong>{{ t.titulo }}</strong></td>
-                    <td>{{ t.descripcion|default:"—" }}</td>
-                    <td>
-                        <span class="badge 
-                            {% if t.estado == 'pendiente' %}bg-warning
-                            {% elif t.estado == 'en_progreso' %}bg-info
-                            {% elif t.estado == 'completada' %}bg-success
-                            {% else %}bg-secondary{% endif %}">
-                            {{ t.get_estado_display }}
-                        </span>
-                    </td>
-                    <td>
-                        <span class="badge 
-                            {% if t.prioridad == 'alta' %}bg-danger
-                            {% elif t.prioridad == 'media' %}bg-warning text-dark
-                            {% else %}bg-success{% endif %}">
-                            {{ t.get_prioridad_display }}
-                        </span>
-                    </td>
-                    <td>{{ t.fecha_creacion|date:"d/m/Y" }}</td>
-                    <td>
-                        {% if t.fecha_vencimiento %}
-                            {{ t.fecha_vencimiento|date:"d/m/Y" }}
-                        {% else %}
-                            —
+    <!-- BUSCADOR -->
+    <div class="card shadow-sm border-0 rounded-4 mb-4">
+
+        <div class="card-body">
+
+            <form method="GET">
+
+                <div class="row g-3 align-items-end">
+
+                    <div class="col-lg-8">
+
+                        <label class="form-label fw-semibold">
+                            🔍 Buscar tarea
+                        </label>
+
+                        <input
+                            type="text"
+                            class="form-control"
+                            name="buscar"
+                            placeholder="Escribe el título..."
+                            value="{{ request.GET.buscar }}">
+
+                    </div>
+
+                    <div class="col-lg-2 d-grid">
+
+                        <button class="btn btn-guapo">
+                            Buscar
+                        </button>
+
+                    </div>
+
+                    <div class="col-lg-2 d-grid">
+
+                        <a href="{% url 'detalle_proyecto' proyecto.id %}"
+                           class="btn btn-guapo2">
+
+                            Limpiar
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+    <!-- FILTROS -->
+    <div class="card shadow-sm border-0 rounded-4 mb-4">
+
+        <div class="card-header bg-white">
+
+            <h5 class="mb-0 fw-bold">
+                🎯 Filtros
+            </h5>
+
+            <small class="text-muted">
+                Filtra las tareas de este proyecto.
+            </small>
+
+        </div>
+<div class="card-body">
+
+    <form method="GET">
+
+        <div class="row g-3">
+
+            <!-- Estado -->
+            <div class="col-lg-3">
+
+                <label class="form-label fw-semibold">
+                    Estado
+                </label>
+
+                <select class="form-select" name="estado">
+
+                    <option value=""
+                        {% if request.GET.estado == "" %}
+                            selected
                         {% endif %}
-                    </td>
-                    <td>
-                        <form method="post" action="{% url 'eliminar_tarea' t.id %}" style="display:inline;">
-                            {% csrf_token %}
-                            <input type="checkbox" class="completar-tarea" {% if t.completada %}checked{% endif %}>
-                            <span class="ms-1">{% if t.completada %}Completada{% else %}Completar{% endif %}</span>
-                        </form>
-                    </td>
-                    <td>
-                        <div class="d-flex gap-2">
-                            <a href="{% url 'editar_tarea' t.id %}" class="btn btn-sm btn-guapo">
-                                ✏️ Editar
-                            </a>
-                            <form method="post" action="{% url 'eliminar_tarea' t.id %}" onsubmit="return confirm('¿Estás seguro de que quieres eliminar esta tarea?');" style="display:inline;">
-                                {% csrf_token %}
-                                <button type="submit" class="btn btn-sm btn-danger">
-                                    🗑️ Eliminar
-                                </button>
-                            </form>
-                        </div>
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
-    {% else %}
-    <div class="alert alert-info text-center">
-        <h4>Este proyecto no tiene tareas asignadas aún</h4>
-        <p>Puedes asignar tareas existentes a este proyecto desde el listado de tareas.</p>
-        <a href="{% url 'lista_tarea' %}" class="btn btn-guapo mt-2">Ir a mis tareas</a>
-    </div>
-    {% endif %}
+                    >
+                        Todos
+                    </option>
+
+                    <option value="pendiente"
+                        {% if request.GET.estado == "pendiente" %}
+                            selected
+                        {% endif %}
+                    >
+                        Pendiente
+                    </option>
+
+                    <option value="en_progreso"
+                        {% if request.GET.estado == "en_progreso" %}
+                            selected
+                        {% endif %}
+                    >
+                        En progreso
+                    </option>
+
+                    <option value="completada"
+                        {% if request.GET.estado == "completada" %}
+                            selected
+                        {% endif %}
+                    >
+                        Completada
+                    </option>
+
+                </select>
+
+            </div>
+
+            <!-- Prioridad -->
+            <div class="col-lg-3">
+
+                <label class="form-label fw-semibold">
+                    Prioridad
+                </label>
+
+                <select class="form-select" name="prioridad">
+
+                    <option value=""
+                        {% if request.GET.prioridad == "" %}
+                            selected
+                        {% endif %}
+                    >
+                        Todas
+                    </option>
+
+                    <option value="alta"
+                        {% if request.GET.prioridad == "alta" %}
+                            selected
+                        {% endif %}
+                    >
+                        Alta
+                    </option>
+
+                    <option value="media"
+                        {% if request.GET.prioridad == "media" %}
+                            selected
+                        {% endif %}
+                    >
+                        Media
+                    </option>
+
+                    <option value="baja"
+                        {% if request.GET.prioridad == "baja" %}
+                            selected
+                        {% endif %}
+                    >
+                        Baja
+                    </option>
+
+                </select>
+
+            </div>
+
+            <div class="col-lg-3 d-flex align-items-end">
+
+                <button type="submit" class="btn btn-guapo w-100">
+                    🎯 Aplicar filtros
+                </button>
+
+            </div>
+
+            <div class="col-lg-3 d-flex align-items-end">
+
+                <a href="{% url 'detalle_proyecto' proyecto.id %}"
+                   class="btn btn-guapo2 w-100">
+
+                    Limpiar
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </form>
+
 </div>
 
-{% include 'tarea/corfirmar.html' %}
+    {% if tareas %}
+
+    <div class="card shadow-sm border-0 rounded-4">
+
+        <div class="card-header bg-white border-bottom d-flex justify-content-between align-items-center py-3">
+
+            <div>
+
+                <h5 class="mb-0 fw-bold">
+                    📋 Tareas
+                </h5>
+
+                <small class="text-muted">
+                    Todas las tareas del proyecto.
+                </small>
+
+            </div>
+
+            <span class="badge rounded-pill bg-light text-dark border px-3 py-2">
+
+                {{ tareas.count }} tareas
+
+            </span>
+
+        </div>
+
+        <div class="table-responsive">
+
+            <div class="table-responsive">
+
+    <table class="table table-hover align-middle mb-0">
+
+        <thead class="table-light">
+
+            <tr>
+
+                <th width="25%">Título</th>
+                <th>Estado</th>
+                <th>Prioridad</th>
+                <th>Vence</th>
+                <th>Categoría</th>
+                <th class="text-center">Completada</th>
+                <th width="220">Acciones</th>
+
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+        {% for t in tareas %}
+
+        <tr>
+
+            <td>
+
+                <div class="fw-semibold fs-6">
+                    📋 {{ t.titulo }}
+                </div>
+
+                {% if t.descripcion %}
+
+                    <small class="text-muted">
+                        {{ t.descripcion|truncatechars:55 }}
+                    </small>
+
+                {% endif %}
+
+            </td>
+
+            <td>
+
+                <span class="badge
+                    {% if t.estado == 'pendiente' %}
+                        bg-warning text-dark
+                    {% elif t.estado == 'en_progreso' %}
+                        bg-info text-dark
+                    {% elif t.estado == 'completada' %}
+                        bg-success
+                    {% else %}
+                        bg-secondary
+                    {% endif %}">
+
+                    {{ t.get_estado_display }}
+
+                </span>
+
+            </td>
+
+            <td>
+
+                <span class="badge
+                    {% if t.prioridad == 'alta' %}
+                        bg-danger
+                    {% elif t.prioridad == 'media' %}
+                        bg-warning text-dark
+                    {% else %}
+                        bg-success
+                    {% endif %}">
+
+                    {{ t.get_prioridad_display }}
+
+                </span>
+
+            </td>
+
+            <td>
+
+                {% if t.fecha_vencimiento %}
+
+                    {{ t.fecha_vencimiento|date:"d/m/Y" }}
+
+                {% else %}
+
+                    <span class="text-muted">—</span>
+
+                {% endif %}
+
+            </td>
+
+            <td>
+
+                {% if t.categoria %}
+
+                    <div class="border rounded-3 p-2">
+
+                        <div class="fw-semibold">
+                            🏷️ {{ t.categoria.nombre }}
+                        </div>
+
+                        {% if t.categoria.descripcion %}
+
+                            <small class="text-muted">
+                                {{ t.categoria.descripcion|truncatechars:25 }}
+                            </small>
+
+                        {% endif %}
+
+                    </div>
+
+                {% else %}
+
+                    <a href="{% url 'asignar_categoria_tarea' t.id %}"
+                       class="btn btn-proyecto btn-sm">
+
+                        ➕ Añadir
+
+                    </a>
+
+                {% endif %}
+
+            </td>
+
+            <td class="text-center">
+
+                <form method="post"
+                      action="{% url 'eliminar_tarea' t.id %}"
+                      class="form-completar">
+
+                    {% csrf_token %}
+
+                    <label class="check-completar">
+
+                        <input
+                            type="checkbox"
+                            class="completar-tarea"
+                            {% if t.completada %}checked{% endif %}>
+
+                        <span class="texto-completar">
+
+                            {% if t.completada %}
+                                Completada
+                            {% else %}
+                                Completar
+                            {% endif %}
+
+                        </span>
+
+                    </label>
+
+                </form>
+
+            </td>
+
+            <td>
+
+                <div class="d-flex flex-column gap-2">
+
+                    <a href="{% url 'editar_tarea' t.id %}"
+                       class="btn btn-guapo btn-sm">
+
+                        ✏️ Editar
+
+                    </a>
+
+                    <form method="post"
+                          action="{% url 'eliminar_tarea' t.id %}">
+
+                        {% csrf_token %}
+
+                        <button type="submit"
+                                class="btn-eliminar w-100">
+
+                            🗑️ Eliminar
+
+                        </button>
+
+                    </form>
+
+                    <a href="{% url 'listar_subtareas' t.id %}"
+                       class="btn-proyecto text-center">
+
+                        📋 Subtareas
+
+                    </a>
+
+                </div>
+
+            </td>
+
+        </tr>
+
+        {% endfor %}
+
+        </tbody>
+
+    </table>
+
+</div>
+
+        </div>
+
+    </div>
+
+    {% else %}
+
+    <div class="card border-0 shadow-sm rounded-4">
+
+        <div class="card-body text-center py-5">
+
+            <div style="font-size:70px;">
+                📁
+            </div>
+
+            <h3 class="fw-bold mt-3">
+                Este proyecto todavía no tiene tareas
+            </h3>
+
+            <p class="text-muted">
+
+                Asigna o crea tareas para comenzar a trabajar en este proyecto.
+
+            </p>
+
+            <a href="{% url 'lista_tarea' %}"
+               class="btn btn-guapo mt-3">
+
+                📋 Ir a mis tareas
+
+            </a>
+
+        </div>
+
+    </div>
+
+    {% endif %}
+
+</div>
+
+{% include "tarea/corfirmar.html" %}
+
 {% endblock %}
