@@ -126,8 +126,7 @@ STORAGES = {
     },
 }  
 
-ALLOWED_HOSTS = ['127.0.0.1', '0.0.0.0', 'localhost', 'organiza-plus.onrender.com']
-
+ALLOWED_HOSTS = ['127.0.0.1', '0.0.0.0', 'localhost', 'proyecto-beh2.onrender.com']
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
