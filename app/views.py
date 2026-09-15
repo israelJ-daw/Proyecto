@@ -20,7 +20,7 @@ def registrar_usuario(request):
         if formulario.is_valid():
             user = formulario.save()
 
-            grupo = Group.objects.get(name='Usuario')
+            grupo, creado = Group.objects.get_or_create(name='Usuario')
             user.groups.add(grupo)
 
             login(request, user)      
