@@ -497,3 +497,28 @@ def buscar_subtarea(request, id_tarea):
         })
 
     return JsonResponse(resultados, safe=False)
+
+@login_required
+def buscar_proyecto(request):
+
+    buscar = request.GET.get("buscar")
+
+    proyectos = Proyecto.objects.filter(
+        usuario=request.user
+    ).filter(
+        Q(nombre__icontains=buscar)
+    )
+
+    datos = []
+
+    for proyecto in proyectos:
+
+        datos.append({
+            "id": proyecto.id,
+            "nombre": proyecto.nombre,
+            "descripcion": proyecto.descripcion,
+            "fecha_creacion": proyecto.fecha_creacion.strftime("%d/%m/%Y"),
+            "fecha_fin": proyecto.fecha_fin.strftime("%d/%m/%Y") if proyecto.fecha_fin else None
+        })
+
+    return JsonResponse(datos, safe=False)

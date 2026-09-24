@@ -6,7 +6,7 @@ if (buscadorProyectos) {
 
     buscadorProyectos.addEventListener("input", function() {
 
-        fetch("/buscar_proyecto/?buscar=" + encodeURIComponent(buscadorProyectos.value))
+        fetch("/buscar_proyecto/?buscar=" + buscadorProyectos.value)
             .then(response => response.json())
             .then(datos => {
 
@@ -16,7 +16,7 @@ if (buscadorProyectos) {
 
                     tablaProyectos.innerHTML = `
                         <tr>
-                            <td colspan="5" class="text-center py-4">
+                            <td colspan="5" class="text-center">
                                 🔍 No se encontraron proyectos
                             </td>
                         </tr>
@@ -32,8 +32,8 @@ if (buscadorProyectos) {
                     fila.innerHTML = `
 
                         <td>
-
                             <div class="fw-semibold fs-6">
+
                                 📁
 
                                 <a href="/detalle_proyecto/${proyecto.id}/"
@@ -44,7 +44,6 @@ if (buscadorProyectos) {
                                 </a>
 
                             </div>
-
                         </td>
 
                         <td>
