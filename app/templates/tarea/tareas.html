@@ -1,10 +1,9 @@
+```html
 <div class="container mt-4">
 
     <!-- Cabecera -->
     <div class="d-flex justify-content-between align-items-center mb-4">
-
         <div>
-
             <h2 class="fw-bold mb-1">
                 📋 Mis Tareas
             </h2>
@@ -12,25 +11,22 @@
             <p class="text-muted mb-0">
                 Gestiona todas tus tareas desde un único lugar.
             </p>
-
         </div>
 
         <a href="{% url 'crear_tarea' %}" class="btn btn-guapo">
             ➕ Crear tarea
         </a>
-
     </div>
-        <!-- BUSCADOR -->
-    <div class="card shadow-sm border-0 rounded-4 mb-4">
 
+
+    <!-- BUSCADOR -->
+    <div class="card shadow-sm border-0 rounded-4 mb-4">
         <div class="card-body">
 
             <form method="GET">
-
                 <div class="row g-3 align-items-end">
 
                     <div class="col-lg-8">
-
                         <label class="form-label fw-semibold">
                             🔍 Buscar tarea
                         </label>
@@ -42,38 +38,31 @@
                             placeholder="Escribe el título de la tarea..."
                             value="{{ request.GET.buscar }}"
                             id="buscador">
-
                     </div>
 
                     <div class="col-lg-2 d-grid">
-
                         <button type="submit" class="btn btn-guapo">
                             🔍 Buscar
                         </button>
-
                     </div>
 
                     <div class="col-lg-2 d-grid">
-
                         <a href="{% url 'lista_tarea' %}" class="btn btn-guapo2">
                             🧹 Limpiar
                         </a>
-
                     </div>
 
                 </div>
-
             </form>
 
         </div>
-
     </div>
 
-        <!-- FILTROS -->
+
+    <!-- FILTROS -->
     <div class="card shadow-sm border-0 mb-4">
 
         <div class="card-header bg-white">
-
             <h5 class="mb-0 fw-bold">
                 🎯 Filtros
             </h5>
@@ -81,12 +70,12 @@
             <small class="text-muted">
                 Filtra tus tareas para encontrarlas más rápido.
             </small>
-
         </div>
 
 
         <div class="card-body">
 
+            <!-- FORMULARIO DE FILTROS -->
             <form method="GET">
 
                 <div class="row g-3 align-items-end">
@@ -107,30 +96,28 @@
                             <option value="pendiente"
                                 {% if request.GET.estado == "pendiente" %}
                                     selected
-                                {% endif %}
-                            >
+                                {% endif %}>
                                 Pendiente
                             </option>
 
                             <option value="en_progreso"
                                 {% if request.GET.estado == "en_progreso" %}
                                     selected
-                                {% endif %}
-                            >
+                                {% endif %}>
                                 En progreso
                             </option>
 
                             <option value="completada"
                                 {% if request.GET.estado == "completada" %}
                                     selected
-                                {% endif %}
-                            >
+                                {% endif %}>
                                 Completada
                             </option>
 
                         </select>
 
                     </div>
+
 
                     <!-- Prioridad -->
                     <div class="col-lg-4">
@@ -148,29 +135,28 @@
                             <option value="alta"
                                 {% if request.GET.prioridad == "alta" %}
                                     selected
-                                {% endif %}
-                            >
+                                {% endif %}>
                                 Alta
                             </option>
 
                             <option value="media"
                                 {% if request.GET.prioridad == "media" %}
                                     selected
-                                {% endif %}
-                            >
+                                {% endif %}>
                                 Media
                             </option>
 
                             <option value="baja"
                                 {% if request.GET.prioridad == "baja" %}
                                     selected
-                                {% endif %}
-                            >
+                                {% endif %}>
                                 Baja
                             </option>
 
                         </select>
+
                     </div>
+
 
                     <!-- Proyecto -->
                     <div class="col-lg-4">
@@ -185,14 +171,12 @@
                                 Todos los proyectos
                             </option>
 
-
                             {% for proyecto in proyectos %}
 
                                 <option value="{{ proyecto.id }}"
                                     {% if request.GET.proyecto == proyecto.id|stringformat:"s" %}
                                         selected
-                                    {% endif %}
-                                >
+                                    {% endif %}>
 
                                     📁 {{ proyecto.nombre }}
 
@@ -201,11 +185,11 @@
                             {% endfor %}
 
                         </select>
-                        
+
                     </div>
 
-                    <!-- Categoría -->
 
+                    <!-- Categoría -->
                     <div class="col-lg-4">
 
                         <label class="form-label fw-semibold">
@@ -219,144 +203,19 @@
                             </option>
 
                             {% for categoria in categorias %}
+
                                 <option value="{{ categoria.id }}"
                                     {% if request.GET.categoria == categoria.id|stringformat:"s" %}
                                         selected
-                                    {% endif %}
-                                >
+                                    {% endif %}>
+
                                     🏷️ {{ categoria.nombre }}
+
                                 </option>
+
                             {% endfor %}
 
                         </select>
-
-                    </div>
-                    
-                    <!-- ORDENACIÓN -->
-                    <div class="card shadow-sm border-0 mb-4">
-
-                        <div class="card-header bg-white">
-
-                            <h5 class="mb-0 fw-bold">
-                                ↕️ Ordenar tareas
-                            </h5>
-
-                            <small class="text-muted">
-                                Elige cómo quieres visualizar tus tareas.
-                            </small>
-
-                        </div>
-
-                        <div class="card-body">
-
-                            <form method="GET">
-
-                                <!-- Mantener búsqueda y filtros -->
-                                <input type="hidden" name="buscar" value="{{ request.GET.buscar }}">
-                                <input type="hidden" name="estado" value="{{ request.GET.estado }}">
-                                <input type="hidden" name="prioridad" value="{{ request.GET.prioridad }}">
-                                <input type="hidden" name="proyecto" value="{{ request.GET.proyecto }}">
-                                <input type="hidden" name="categoria" value="{{ request.GET.categoria }}">
-
-                                <div class="row g-3">
-
-                                    <div class="col-lg-6">
-
-                                        <label class="form-label fw-semibold">
-                                            Ordenar por
-                                        </label>
-
-                                        <select class="form-select" name="orden">
-
-                                            <option value=""
-                                                {% if request.GET.orden == "" %}
-                                                    selected
-                                                {% endif %}
-                                            >
-                                                Sin ordenar
-                                            </option>
-
-                                            <option value="recientes"
-                                                {% if request.GET.orden == "recientes" %}
-                                                    selected
-                                                {% endif %}
-                                            >
-                                                📅 Más recientes
-                                            </option>
-
-                                            <option value="antiguas"
-                                                {% if request.GET.orden == "antiguas" %}
-                                                    selected
-                                                {% endif %}
-                                            >
-                                                📆 Más antiguas
-                                            </option>
-
-                                            <option value="vencimiento"
-                                                {% if request.GET.orden == "vencimiento" %}
-                                                    selected
-                                                {% endif %}
-                                            >
-                                                ⏰ Fecha de vencimiento
-                                            </option>
-
-                                            <option value="prioridad_alta"
-                                                {% if request.GET.orden == "prioridad_alta" %}
-                                                    selected
-                                                {% endif %}
-                                            >
-                                                🔴 Prioridad alta primero
-                                            </option>
-
-                                            <option value="prioridad_baja"
-                                                {% if request.GET.orden == "prioridad_baja" %}
-                                                    selected
-                                                {% endif %}
-                                            >
-                                                🟢 Prioridad baja primero
-                                            </option>
-
-                                            <option value="az"
-                                                {% if request.GET.orden == "az" %}
-                                                    selected
-                                                {% endif %}
-                                            >
-                                                🔤 Título (A-Z)
-                                            </option>
-
-                                            <option value="za"
-                                                {% if request.GET.orden == "za" %}
-                                                    selected
-                                                {% endif %}
-                                            >
-                                                🔠 Título (Z-A)
-                                            </option>
-
-                                        </select>
-
-                                    </div>
-
-                                    <div class="col-lg-3 d-flex align-items-end">
-
-                                        <button type="submit" class="btn btn-guapo w-100">
-                                            ↕️ Ordenar
-                                        </button>
-
-                                    </div>
-
-                                    <div class="col-lg-3 d-flex align-items-end">
-
-                                        <a href="{% url 'lista_tarea' %}" class="btn btn-guapo2 w-100">
-                                            Limpiar
-                                        </a>
-
-                                    </div>
-
-                                </div>
-
-                            </form>
-
-                        </div>
 
                     </div>
 
@@ -370,11 +229,12 @@
 
                     </div>
 
+
                     <!-- Limpiar -->
                     <div class="col-lg-2 d-grid">
 
                         <a href="{% url 'lista_tarea' %}"
-                        class="btn btn-guapo2">
+                           class="btn btn-guapo2">
 
                             Limpiar
 
@@ -382,314 +242,504 @@
 
                     </div>
 
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+
+
+    <!-- ORDENACIÓN -->
+    <div class="card shadow-sm border-0 mb-4">
+
+        <div class="card-header bg-white">
+
+            <h5 class="mb-0 fw-bold">
+                ↕️ Ordenar tareas
+            </h5>
+
+            <small class="text-muted">
+                Elige cómo quieres visualizar tus tareas.
+            </small>
+
+        </div>
+
+
+        <div class="card-body">
+
+            <form method="GET">
+
+                <!-- Mantener búsqueda y filtros -->
+                <input type="hidden"
+                       name="buscar"
+                       value="{{ request.GET.buscar }}">
+
+                <input type="hidden"
+                       name="estado"
+                       value="{{ request.GET.estado }}">
+
+                <input type="hidden"
+                       name="prioridad"
+                       value="{{ request.GET.prioridad }}">
+
+                <input type="hidden"
+                       name="proyecto"
+                       value="{{ request.GET.proyecto }}">
+
+                <input type="hidden"
+                       name="categoria"
+                       value="{{ request.GET.categoria }}">
+
+
+                <div class="row g-3">
+
+                    <div class="col-lg-6">
+
+                        <label class="form-label fw-semibold">
+                            Ordenar por
+                        </label>
+
+                        <select class="form-select" name="orden">
+
+                            <option value=""
+                                {% if request.GET.orden == "" %}
+                                    selected
+                                {% endif %}>
+                                Sin ordenar
+                            </option>
+
+                            <option value="recientes"
+                                {% if request.GET.orden == "recientes" %}
+                                    selected
+                                {% endif %}>
+                                📅 Más recientes
+                            </option>
+
+                            <option value="antiguas"
+                                {% if request.GET.orden == "antiguas" %}
+                                    selected
+                                {% endif %}>
+                                📆 Más antiguas
+                            </option>
+
+                            <option value="vencimiento"
+                                {% if request.GET.orden == "vencimiento" %}
+                                    selected
+                                {% endif %}>
+                                ⏰ Fecha de vencimiento
+                            </option>
+
+                            <option value="prioridad_alta"
+                                {% if request.GET.orden == "prioridad_alta" %}
+                                    selected
+                                {% endif %}>
+                                🔴 Prioridad alta primero
+                            </option>
+
+                            <option value="prioridad_baja"
+                                {% if request.GET.orden == "prioridad_baja" %}
+                                    selected
+                                {% endif %}>
+                                🟢 Prioridad baja primero
+                            </option>
+
+                            <option value="az"
+                                {% if request.GET.orden == "az" %}
+                                    selected
+                                {% endif %}>
+                                🔤 Título (A-Z)
+                            </option>
+
+                            <option value="za"
+                                {% if request.GET.orden == "za" %}
+                                    selected
+                                {% endif %}>
+                                🔠 Título (Z-A)
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="col-lg-3 d-flex align-items-end">
+
+                        <button type="submit" class="btn btn-guapo w-100">
+                            ↕️ Ordenar
+                        </button>
+
+                    </div>
+
+
+                    <div class="col-lg-3 d-flex align-items-end">
+
+                        <a href="{% url 'lista_tarea' %}"
+                           class="btn btn-guapo2 w-100">
+
+                            Limpiar
+
+                        </a>
+
+                    </div>
 
                 </div>
 
             </form>
 
         </div>
-
     </div>
+
 
     {% if tareas %}
 
-<div class="card shadow-sm border-0 rounded-4">
+        <div class="card shadow-sm border-0 rounded-4">
 
-    <div class="card-header bg-white border-bottom d-flex justify-content-between align-items-center py-3">
+            <div class="card-header bg-white border-bottom d-flex justify-content-between align-items-center py-3">
 
-        <div>
+                <div>
 
-            <h5 class="mb-0 fw-bold">
-                📋 Tareas
-            </h5>
+                    <h5 class="mb-0 fw-bold">
+                        📋 Tareas
+                    </h5>
 
-            <small class="text-muted">
-                Gestiona todas tus tareas.
-            </small>
+                    <small class="text-muted">
+                        Gestiona todas tus tareas.
+                    </small>
+
+                </div>
+
+                <span class="badge rounded-pill bg-light text-dark border px-3 py-2">
+                    {{ tareas.count }} tareas
+                </span>
+
+            </div>
+
+
+            <div class="table-responsive">
+
+                <table class="table table-hover align-middle mb-0">
+
+                    <thead class="table-light">
+
+                        <tr>
+
+                            <th width="25%">Título</th>
+                            <th>Estado</th>
+                            <th>Prioridad</th>
+                            <th>Vence</th>
+                            <th>Proyecto</th>
+                            <th>Categoría</th>
+                            <th class="text-center">Completada</th>
+                            <th width="220">Acciones</th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody id="tabla-tareas">
+
+                        {% for t in tareas %}
+
+                            <tr>
+
+                                <td>
+
+                                    <div class="fw-semibold fs-6">
+                                        📋 {{ t.titulo }}
+                                    </div>
+
+                                    {% if t.descripcion %}
+
+                                        <small class="text-muted">
+                                            {{ t.descripcion|truncatechars:55 }}
+                                        </small>
+
+                                    {% endif %}
+
+                                </td>
+
+
+                                <td>
+
+                                    <span class="badge
+                                        {% if t.estado == 'pendiente' %}
+                                            bg-warning text-dark
+                                        {% elif t.estado == 'en_progreso' %}
+                                            bg-info text-dark
+                                        {% elif t.estado == 'completada' %}
+                                            bg-success
+                                        {% else %}
+                                            bg-secondary
+                                        {% endif %}">
+
+                                        {{ t.get_estado_display }}
+
+                                    </span>
+
+                                </td>
+
+
+                                <td>
+
+                                    <span class="badge
+                                        {% if t.prioridad == 'alta' %}
+                                            bg-danger
+                                        {% elif t.prioridad == 'media' %}
+                                            bg-warning text-dark
+                                        {% else %}
+                                            bg-success
+                                        {% endif %}">
+
+                                        {{ t.get_prioridad_display }}
+
+                                    </span>
+
+                                </td>
+
+
+                                <td>
+
+                                    {% if t.fecha_vencimiento %}
+
+                                        {{ t.fecha_vencimiento|date:"d/m/Y" }}
+
+                                    {% else %}
+
+                                        <span class="text-muted">
+                                            —
+                                        </span>
+
+                                    {% endif %}
+
+                                </td>
+
+
+                                <td>
+
+                                    {% if t.proyecto %}
+
+                                        <a href="{% url 'detalle_proyecto' t.proyecto.id %}"
+                                           class="btn-proyecto">
+
+                                            📁 {{ t.proyecto.nombre }}
+
+                                        </a>
+
+                                    {% else %}
+
+                                        <a href="{% url 'asignar_proyecto_tarea' t.id %}"
+                                           class="btn btn-proyecto btn-sm">
+
+                                            ➕ Añadir
+
+                                        </a>
+
+                                    {% endif %}
+
+                                </td>
+
+
+                                <td>
+
+                                    {% if t.categoria %}
+
+                                        <div class="border rounded-3 p-2">
+
+                                            <div class="fw-semibold">
+
+                                                🏷️ {{ t.categoria.nombre }}
+
+                                            </div>
+
+
+                                            {% if t.categoria.descripcion %}
+
+                                                <small class="text-muted">
+
+                                                    {{ t.categoria.descripcion|truncatechars:25 }}
+
+                                                </small>
+
+                                            {% endif %}
+
+
+                                            <div class="mt-2">
+
+                                                <a href="{% url 'asignar_categoria_tarea' t.id %}"
+                                                   class="btn btn-guapo2 btn-sm w-100">
+
+                                                    🔄 Cambiar
+
+                                                </a>
+
+                                            </div>
+
+                                        </div>
+
+                                    {% else %}
+
+                                        <a href="{% url 'asignar_categoria_tarea' t.id %}"
+                                           class="btn btn-proyecto btn-sm">
+
+                                            ➕ Añadir
+
+                                        </a>
+
+                                    {% endif %}
+
+                                </td>
+
+
+                                <td class="text-center">
+
+                                    <form method="post"
+                                          action="{% url 'eliminar_tarea' t.id %}"
+                                          class="form-completar">
+
+                                        {% csrf_token %}
+
+                                        <label class="check-completar">
+
+                                            <input
+                                                type="checkbox"
+                                                class="completar-tarea"
+                                                {% if t.completada %}checked{% endif %}>
+
+                                            <span class="texto-completar">
+
+                                                {% if t.completada %}
+
+                                                    Completada
+
+                                                {% else %}
+
+                                                    Completar
+
+                                                {% endif %}
+
+                                            </span>
+
+                                        </label>
+
+                                    </form>
+
+                                </td>
+
+
+                                <td>
+
+                                    <div class="d-flex flex-column gap-2">
+
+                                        <a href="{% url 'editar_tarea' t.id %}"
+                                           class="btn btn-guapo btn-sm">
+
+                                            ✏️ Editar
+
+                                        </a>
+
+
+                                        <form method="post"
+                                              action="{% url 'eliminar_tarea' t.id %}">
+
+                                            {% csrf_token %}
+
+                                            <button type="submit"
+                                                    class="btn-eliminar w-100">
+
+                                                🗑️ Eliminar
+
+                                            </button>
+
+                                        </form>
+
+
+                                        <a href="{% url 'listar_subtareas' t.id %}"
+                                           class="btn-proyecto text-center">
+
+                                            📋 Subtareas
+
+                                        </a>
+
+                                    </div>
+
+                                </td>
+
+                            </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
 
         </div>
 
-        <span class="badge rounded-pill bg-light text-dark border px-3 py-2">
-            {{ tareas.count }} tareas
-        </span>
 
-    </div>
+    {% else %}
 
-    <div class="table-responsive">
 
-        <table class="table table-hover align-middle mb-0">
+        <div class="card border-0 shadow-sm rounded-4">
 
-            <thead class="table-light">
-                <tr>
-                    <th width="25%">Título</th>
-                    <th>Estado</th>
-                    <th>Prioridad</th>
-                    <th>Vence</th>
-                    <th>Proyecto</th>
-                    <th>Categoría</th>
-                    <th class="text-center">Completada</th>
-                    <th width="220">Acciones</th>
-                </tr>
-            </thead>
+            <div class="card-body text-center py-5">
 
-            <tbody id = "tabla-tareas">
+                <div style="font-size:70px;">
+                    📋
+                </div>
 
-            {% for t in tareas %}
 
-            <tr>
+                <h3 class="fw-bold mt-3">
+                    No se encontraron tareas
+                </h3>
 
-                <td>
 
-                    <div class="fw-semibold fs-6">
-                        📋 {{ t.titulo }}
-                    </div>
+                {% if request.GET.buscar %}
 
-                    {% if t.descripcion %}
+                    <p class="text-muted">
 
-                        <small class="text-muted">
-                            {{ t.descripcion|truncatechars:55 }}
-                        </small>
+                        No existe ninguna tarea que coincida con
+                        <strong>"{{ request.GET.buscar }}"</strong>.
 
-                    {% endif %}
+                    </p>
 
-                </td>
 
-                <td>
+                    <a href="{% url 'lista_tarea' %}"
+                       class="btn btn-guapo2 mt-3">
 
-                    <span class="badge
-                        {% if t.estado == 'pendiente' %}
-                            bg-warning text-dark
-                        {% elif t.estado == 'en_progreso' %}
-                            bg-info text-dark
-                        {% elif t.estado == 'completada' %}
-                            bg-success
-                        {% else %}
-                            bg-secondary
-                        {% endif %}">
+                        Mostrar todas las tareas
 
-                        {{ t.get_estado_display }}
+                    </a>
 
-                    </span>
 
-                </td>
+                {% else %}
 
-                <td>
 
-                    <span class="badge
-                        {% if t.prioridad == 'alta' %}
-                            bg-danger
-                        {% elif t.prioridad == 'media' %}
-                            bg-warning text-dark
-                        {% else %}
-                            bg-success
-                        {% endif %}">
+                    <p class="text-muted">
 
-                        {{ t.get_prioridad_display }}
+                        Empieza creando tu primera tarea para organizar tu trabajo.
 
-                    </span>
+                    </p>
 
-                </td>
 
-                <td>
+                    <a href="{% url 'crear_tarea' %}"
+                       class="btn btn-guapo mt-3">
 
-                    {% if t.fecha_vencimiento %}
-                        {{ t.fecha_vencimiento|date:"d/m/Y" }}
-                    {% else %}
-                        <span class="text-muted">—</span>
-                    {% endif %}
+                        ➕ Crear mi primera tarea
 
-                </td>
+                    </a>
 
-                <td>
+                {% endif %}
 
-                    {% if t.proyecto %}
+            </div>
 
-                        <a href="{% url 'detalle_proyecto' t.proyecto.id %}"
-                           class="btn-proyecto">
-
-                            📁 {{ t.proyecto.nombre }}
-
-                        </a>
-
-                    {% else %}
-
-                        <a href="{% url 'asignar_proyecto_tarea' t.id %}"
-                           class="btn btn-proyecto btn-sm">
-
-                            ➕ Añadir
-
-                        </a>
-
-                    {% endif %}
-
-                </td>
-
-                <td>
-
-                    {% if t.categoria %}
-
-                        <div class="border rounded-3 p-2">
-
-                            <div class="fw-semibold">
-                                🏷️ {{ t.categoria.nombre }}
-                            </div>
-
-                            {% if t.categoria.descripcion %}
-
-                                <small class="text-muted">
-                                    {{ t.categoria.descripcion|truncatechars:25 }}
-                                </small>
-
-                            {% endif %}
-
-                            <div class="mt-2">
-
-                                <a href="{% url 'asignar_categoria_tarea' t.id %}"
-                                   class="btn btn-guapo2 btn-sm w-100">
-
-                                    🔄 Cambiar
-
-                                </a>
-
-                            </div>
-
-                        </div>
-
-                    {% else %}
-
-                        <a href="{% url 'asignar_categoria_tarea' t.id %}"
-                           class="btn btn-proyecto btn-sm">
-
-                            ➕ Añadir
-
-                        </a>
-
-                    {% endif %}
-
-                </td>
-
-                <td class="text-center">
-
-                    <form method="post"
-                          action="{% url 'eliminar_tarea' t.id %}"
-                          class="form-completar">
-
-                        {% csrf_token %}
-
-                        <label class="check-completar">
-
-                            <input
-                                type="checkbox"
-                                class="completar-tarea"
-                                {% if t.completada %}checked{% endif %}>
-
-                            <span class="texto-completar">
-
-                                {% if t.completada %}
-                                    Completada
-                                {% else %}
-                                    Completar
-                                {% endif %}
-
-                            </span>
-
-                        </label>
-
-                    </form>
-
-                </td>
-
-                <td>
-
-                    <div class="d-flex flex-column gap-2">
-
-                        <a href="{% url 'editar_tarea' t.id %}"
-                           class="btn btn-guapo btn-sm">
-
-                            ✏️ Editar
-
-                        </a>
-
-                        <form method="post"
-                              action="{% url 'eliminar_tarea' t.id %}">
-
-                            {% csrf_token %}
-
-                            <button type="submit"
-                                    class="btn-eliminar w-100">
-
-                                🗑️ Eliminar
-
-                            </button>
-
-                        </form>
-
-                        <a href="{% url 'listar_subtareas' t.id %}"
-                           class="btn-proyecto text-center">
-
-                            📋 Subtareas
-
-                        </a>
-
-                    </div>
-
-                </td>
-
-            </tr>
-
-            {% endfor %}
-
-            </tbody>
-
-        </table>
-
-    </div>
-
-</div>
-
-{% else %}
-
-<div class="card border-0 shadow-sm rounded-4">
-
-    <div class="card-body text-center py-5">
-
-        <div style="font-size:70px;">
-            📋
         </div>
 
-        <h3 class="fw-bold mt-3">
-            No se encontraron tareas
-        </h3>
-
-        {% if request.GET.buscar %}
-
-            <p class="text-muted">
-                No existe ninguna tarea que coincida con
-                <strong>"{{ request.GET.buscar }}"</strong>.
-            </p>
-
-            <a href="{% url 'lista_tarea' %}" class="btn btn-guapo2 mt-3">
-                Mostrar todas las tareas
-            </a>
-
-        {% else %}
-
-            <p class="text-muted">
-                Empieza creando tu primera tarea para organizar tu trabajo.
-            </p>
-
-            <a href="{% url 'crear_tarea' %}" class="btn btn-guapo mt-3">
-                ➕ Crear mi primera tarea
-            </a>
-
-        {% endif %}
-
-    </div>
+    {% endif %}
 
 </div>
 
-{% endif %}
-
-</div>
 
 {% include 'tarea/corfirmar.html' %}
