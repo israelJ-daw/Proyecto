@@ -37,4 +37,5 @@ urlpatterns = [
 
 
     path('buscar_subtarea/<int:id_tarea>/', views.buscar_subtarea, name='buscar_subtarea'),
+    path('buscar_proyecto/', views.buscar_proyecto, name='buscar_proyecto'),
 ]
