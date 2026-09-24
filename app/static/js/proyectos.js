@@ -34,7 +34,6 @@ if (buscadorProyectos) {
                         <td>
 
                             <div class="fw-semibold fs-6">
-
                                 📁
 
                                 <a href="/detalle_proyecto/${proyecto.id}/"
@@ -49,27 +48,21 @@ if (buscadorProyectos) {
                         </td>
 
                         <td>
-
                             ${proyecto.descripcion
                                 ? proyecto.descripcion
                                 : '<span class="text-muted fst-italic">Sin descripción</span>'
                             }
-
                         </td>
 
                         <td>
-
                             ${proyecto.fecha_creacion}
-
                         </td>
 
                         <td>
-
                             ${proyecto.fecha_fin
                                 ? proyecto.fecha_fin
                                 : '<span class="text-muted">—</span>'
                             }
-
                         </td>
 
                         <td>
